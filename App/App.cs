@@ -6,6 +6,8 @@ using Thinknode;
 namespace App
 {
     /// <summary>
+    /// THIS SERIALIZER IS USED FOR APPS USING DATETIME TYPES. YOU MAY REMOVE THIS TYPE
+    /// IF YOUR APP IS NOT USING DATETIME TYPES.
     /// Built-in datetime serializers.
     /// </summary>
     public class DateTimeSerializer : MessagePackSerializer<DateTime>
