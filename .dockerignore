@@ -1,0 +1,10 @@
+.gitignore
+LICENSE
+README.md
+manifest.json
+
+App/bin
+App/obj
+App/Bin
+App/Obj
+App/packages/*
