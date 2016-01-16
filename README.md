@@ -50,7 +50,7 @@ Once you install this branch (or release a branch as a version and install the v
 
 Obviously, the result should be `3`.
 
-## Building Manually
+# Building Manually
 
 The Dockerfile provided in this repository handles building you C# app for you. You can build manually, however, in your local development environment. To build using a tool like Visual Studio, Xamarin Studio, or MonoDevelop, navigate to the App directory within the cloned `thinknode-provider-seed-cs` repository and open the solution `App.sln`. The required packages should begin to download via NuGet. Once the downloads are complete and the packages are installed, use the build button in your IDE to build the App.
 
