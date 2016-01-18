@@ -62,8 +62,6 @@
             "array_type": {
               "element_schema": {
                 "named_type": {
-                  "account": "kyle",
-                  "app": "math",
                   "name": "Person"
                 }
               }
