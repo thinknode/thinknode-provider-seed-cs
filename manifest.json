@@ -197,6 +197,13 @@
       }
     }
   ],
+  "provider": {
+      "private": {
+          "image": {
+              "tag": "1.0.0"
+          }
+      }
+  },
   "upgrades": [],
   "records": []
 }
