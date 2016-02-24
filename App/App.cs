@@ -1,97 +1,9 @@
 ﻿using System;
-using MsgPack;
-using MsgPack.Serialization;
+using System.Threading;
 using Thinknode;
 
 namespace App
 {
-    /// <summary>
-    /// THIS SERIALIZER IS USED FOR APPS USING DATETIME TYPES. YOU MAY REMOVE THIS TYPE
-    /// IF YOUR APP IS NOT USING DATETIME TYPES.
-    /// Built-in datetime serializers.
-    /// </summary>
-    public class DateTimeSerializer : MessagePackSerializer<DateTime>
-    {
-        public DateTimeSerializer(SerializationContext ownerContext) : base(ownerContext) {}
-
-        /// <summary>
-        /// Defines the serialization for the Datetime.
-        /// </summary>
-        /// <param name="packer">Packer.</param>
-        /// <param name="objectTree">Object tree.</param>
-        protected override void PackToCore(Packer packer, DateTime objectTree)
-        {
-            DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            double ticks = (TimeZoneInfo.ConvertTimeToUtc(objectTree) - epoch).TotalMilliseconds;
-            byte[] bytes;
-            try
-            {
-                sbyte val = Convert.ToSByte(ticks);
-                bytes = BitConverter.GetBytes(val);
-            }
-            catch (OverflowException)
-            {
-                try
-                {
-                    short val = Convert.ToInt16(ticks);
-                    bytes = BitConverter.GetBytes(val);
-                }
-                catch (OverflowException)
-                {
-                    try
-                    {
-                        int val = Convert.ToInt32(ticks);
-                        bytes = BitConverter.GetBytes(val);
-                    }
-                    catch (OverflowException)
-                    {
-                        long val = Convert.ToInt64(ticks);
-                        bytes = BitConverter.GetBytes(val);
-                    }
-                }
-            }
-            if (BitConverter.IsLittleEndian)
-            {
-                Array.Reverse(bytes);
-            }
-            packer.PackExtendedTypeValue(1, bytes);
-        }
-
-        /// <summary>
-        /// Defines the deserialization for the Datetime.
-        /// </summary>
-        /// <returns>The from core.</returns>
-        /// <param name="unpacker">Unpacker.</param>
-        protected override DateTime UnpackFromCore(Unpacker unpacker)
-        {
-            DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            MessagePackObject obj = unpacker.LastReadData;
-            MessagePackExtendedTypeObject ext = obj.AsMessagePackExtendedTypeObject();
-            byte[] bytes = ext.GetBody();
-            if (BitConverter.IsLittleEndian)
-            {
-                Array.Reverse(bytes);
-            }
-            double val;
-            if (bytes.Length == 1)
-            {
-                val = Convert.ToDouble(bytes[0]);
-            }
-            else if (bytes.Length == 2)
-            {
-                val = Convert.ToDouble(BitConverter.ToInt16(bytes, 0));
-            }
-            else if (bytes.Length == 4)
-            {
-                val = Convert.ToDouble(BitConverter.ToInt32(bytes, 0));
-            }
-            else
-            {
-                val = Convert.ToDouble(BitConverter.ToInt64(bytes, 0));
-            }
-            return epoch.AddMilliseconds(val);
-        }
-    }
 
     class App : Provider
     {
@@ -102,6 +14,7 @@ namespace App
         /// <summary>
         /// Add the specified integers a and b.
         /// </summary>
+        /// <returns>The result of adding a and b.</returns>
         /// <param name="a">The integer a.</param>
         /// <param name="b">The integer b.</param>
         public static int Add(int a, int b)
@@ -110,7 +23,40 @@ namespace App
         }
 
         /// <summary>
+        /// Adds the specified integers while reporting progress.
+        /// </summary>
+        /// <returns>The result of adding a and b.</returns>
+        /// <param name="a">The integer a.</param>
+        /// <param name="b">The integer b.</param>
+        /// <param name="progress">The progress callback.</param>
+        public static int AddWithProgress(int a, int b, ProgressDelegate progress)
+        {
+            progress(0.25f, "25%");
+            Thread.Sleep(1000);
+            progress(0.5f, "50%");
+            Thread.Sleep(1000);
+            progress(0.75f, "75%");
+            Thread.Sleep(1000);
+            return a + b;
+        }
+
+        /// <summary>
+        /// Reports a failure before adding the integers.
+        /// </summary>
+        /// <returns>The result of adding a and b.</returns>
+        /// <param name="a">The integer a.</param>
+        /// <param name="b">The integer b.</param>
+        /// <param name="fail">The failure callback.</param>
+        public static int AddWithFailure(int a, int b, FailureDelegate fail)
+        {
+            fail("my_error", "This is a test of the error functionality");
+            return a + b;
+        }
+
+        /// <summary>
         /// Computes the average age given the specified list of Person objects.
+        /// Note: This function's purpose is to demonstrate the MessagePack Serialization
+        /// and Deserialization of the Person class.
         /// </summary>
         /// <returns>The average age</returns>
         /// <param name="list">A list of Person objects.</param>
@@ -151,7 +97,7 @@ namespace App
         // ***
 
         /// <summary>
-        /// DO NOT MODIFY THIS MAIN METHOD EXCEPT ON THE LINES MARKED.
+        /// MODIFY THIS MAIN METHOD WITH CARE.
         /// The entry point of the program, where the program control starts and ends.
         /// </summary>
         /// <param name="args">The command-line arguments.</param>
@@ -159,9 +105,6 @@ namespace App
         {
             // Create App instance.
             App app = new App();
-
-            // Add Serializers (Add your custom serializers below this line)
-            app.context.Serializers.RegisterOverride(new DateTimeSerializer(app.context));
 
             // Start app.
             app.Start();

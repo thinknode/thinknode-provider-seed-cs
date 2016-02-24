@@ -1,131 +1,209 @@
 {
   "dependencies": [],
-  "types": [{
-    "name": "Person",
-    "description": "A person defined by a name and age.",
-    "schema": {
-      "structure_type": {
-        "fields": {
-          "age": {
-            "description": "The age of the person.",
-            "schema": {
-              "integer_type": {}
-            }
-          },
-          "name": {
-            "description": "The name of the person.",
-            "schema": {
-              "string_type": {}
-            }
-          }
-        }
-      }
-    }
-  }],
-  "functions": [{
-    "name": "Add",
-    "description": "Add two integers.",
-    "execution_class": "cpu.x1",
-    "schema": {
-      "function_type": {
-        "parameters": [{
-          "description": "a.",
-          "name": "a",
-          "schema": {
-            "integer_type": {}
-          }
-        }, {
-          "description": "b.",
-          "name": "b",
-          "schema": {
-            "integer_type": {}
-          }
-        }],
-        "returns": {
-          "description": "The result.",
-          "schema": {
-            "integer_type": {}
-          }
-        }
-      }
-    }
-  }, {
-    "name": "AverageAge",
-    "description": "Gets the average age from the specified list of Person objects.",
-    "execution_class": "cpu.x1",
-    "schema": {
-      "function_type": {
-        "parameters": [{
-          "description": "A list of Person objects",
-          "name": "list",
-          "schema": {
-            "array_type": {
-              "element_schema": {
-                "named_type": {
-                  "name": "Person"
-                }
+  "types": [
+    {
+      "name": "Person",
+      "description": "A person defined by a name and age.",
+      "schema": {
+        "structure_type": {
+          "fields": {
+            "age": {
+              "description": "The age of the person.",
+              "schema": {
+                "integer_type": {}
+              }
+            },
+            "name": {
+              "description": "The name of the person.",
+              "schema": {
+                "string_type": {}
               }
             }
           }
-        }],
-        "returns": {
-          "description": "The average age.",
-          "schema": {
-            "float_type": {}
+        }
+      }
+    }
+  ],
+  "functions": [
+    {
+      "name": "Add",
+      "description": "Add two integers.",
+      "execution_class": "cpu.x1",
+      "schema": {
+        "function_type": {
+          "parameters": [
+            {
+              "description": "a.",
+              "name": "a",
+              "schema": {
+                "integer_type": {}
+              }
+            },
+            {
+              "description": "b.",
+              "name": "b",
+              "schema": {
+                "integer_type": {}
+              }
+            }
+          ],
+          "returns": {
+            "description": "The result.",
+            "schema": {
+              "integer_type": {}
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "AddWithProgress",
+      "description": "Add two integers while reporting progress.",
+      "execution_class": "cpu.x1",
+      "schema": {
+        "function_type": {
+          "parameters": [
+            {
+              "description": "a.",
+              "name": "a",
+              "schema": {
+                "integer_type": {}
+              }
+            },
+            {
+              "description": "b.",
+              "name": "b",
+              "schema": {
+                "integer_type": {}
+              }
+            }
+          ],
+          "returns": {
+            "description": "The result.",
+            "schema": {
+              "integer_type": {}
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "AddWithFailure",
+      "description": "Reports a failure.",
+      "execution_class": "cpu.x1",
+      "schema": {
+        "function_type": {
+          "parameters": [
+            {
+              "description": "a.",
+              "name": "a",
+              "schema": {
+                "integer_type": {}
+              }
+            },
+            {
+              "description": "b.",
+              "name": "b",
+              "schema": {
+                "integer_type": {}
+              }
+            }
+          ],
+          "returns": {
+            "description": "The result.",
+            "schema": {
+              "integer_type": {}
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "AverageAge",
+      "description": "Gets the average age from the specified list of Person objects.",
+      "execution_class": "cpu.x1",
+      "schema": {
+        "function_type": {
+          "parameters": [
+            {
+              "description": "A list of Person objects",
+              "name": "list",
+              "schema": {
+                "array_type": {
+                  "element_schema": {
+                    "named_type": {
+                      "name": "Person"
+                    }
+                  }
+                }
+              }
+            }
+          ],
+          "returns": {
+            "description": "The average age.",
+            "schema": {
+              "float_type": {}
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "GetByteArrayLength",
+      "description": "Gets the length of the byte array.",
+      "execution_class": "cpu.x1",
+      "schema": {
+        "function_type": {
+          "parameters": [
+            {
+              "description": "A byte array.",
+              "name": "arr",
+              "schema": {
+                "blob_type": {}
+              }
+            }
+          ],
+          "returns": {
+            "description": "The length of the byte array.",
+            "schema": {
+              "integer_type": {}
+            }
+          }
+        }
+      }
+    },
+    {
+      "name": "GetYear",
+      "description": "Gets the year component of the given datetime value.",
+      "execution_class": "cpu.x1",
+      "schema": {
+        "function_type": {
+          "parameters": [
+            {
+              "description": "The datetime value.",
+              "name": "val",
+              "schema": {
+                "datetime_type": {}
+              }
+            }
+          ],
+          "returns": {
+            "description": "The year.",
+            "schema": {
+              "integer_type": {}
+            }
           }
         }
       }
     }
-  }, {
-    "name": "GetByteArrayLength",
-    "description": "Gets the length of the byte array.",
-    "execution_class": "cpu.x1",
-    "schema": {
-      "function_type": {
-        "parameters": [{
-          "description": "A byte array.",
-          "name": "arr",
-          "schema": {
-            "blob_type": {}
-          }
-        }],
-        "returns": {
-          "description": "The length of the byte array.",
-          "schema": {
-            "integer_type": {}
-          }
-        }
-      }
-    }
-  }, {
-    "name": "GetYear",
-    "description": "Gets the year component of the given datetime value.",
-    "execution_class": "cpu.x1",
-    "schema": {
-      "function_type": {
-        "parameters": [{
-          "description": "The datetime value.",
-          "name": "val",
-          "schema": {
-            "datetime_type": {}
-          }
-        }],
-        "returns": {
-          "description": "The year.",
-          "schema": {
-            "integer_type": {}
-          }
-        }
-      }
-    }
-  }],
-  "upgrades": [],
-  "records": [],
+  ],
   "provider": {
-    "private": {
-      "image": {
-        "tag": "1.0.0"
+      "private": {
+          "image": {
+              "tag": "1.0.0"
+          }
       }
-    }
-  }
+  },
+  "upgrades": [],
+  "records": []
 }
