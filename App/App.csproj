@@ -35,7 +35,7 @@
       <HintPath>packages\MsgPack.Cli.0.6.7\lib\net45\MsgPack.dll</HintPath>
     </Reference>
     <Reference Include="Thinknode">
-      <HintPath>packages\Thinknode.1.1.0.0\lib\net45\Thinknode.dll</HintPath>
+      <HintPath>packages\Thinknode.1.2.0.0\lib\net45\Thinknode.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
